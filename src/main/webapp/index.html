@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Grappa: Console WEB</title>
+	</head>
+	<style>
+		.item-menu{margin:10px auto;padding: 5px 5px;display:inline-block;}
+		.label{width:100px;text-align: left;}
+		.campo{width:300px;}
+		.botao{width:410px;}
+		.meio-botao{width:202px;}
+	</style>
+	<body>
+		<h1>Grappa: Console WEB</h1>
+		<form id="console" action="v1/resultado-pacote.xml" method="post">
+			<label class="item-menu label">Endereço:</label>
+			<input id="endereco" class="item-menu campo" type="text" name="endereco"/>
+			<br/>
+			<label class="item-menu label">Tipo:</label>
+			<select id="tipo" class="item-menu campo" name="tipo">
+				<option value="LEITURA">Leitura</option>
+				<option value="ESCRITA">Escrita</option>
+			</select>
+			<br/>
+			<label class="item-menu label">Conexão:</label>
+			<select id="conexao" class="item-menu campo" name="conexao">
+				<option value="REGISTRADOR">Controlador</option>
+				<option value="GPIO">Pino Elétrico</option>
+				<option value="USB">USB</option>
+			</select>
+			<br/>
+			<label class="item-menu label">Corpo:</label>
+			<input id="corpo" class="item-menu campo" type="text" name="corpo"/>
+			<br/>
+			<input id="ajax"  type="checkbox" name="ajax" value="ajax">Ajax<br/>
+			<input class="item-menu meio-botao" type="reset" value="Limpar"/>
+			<input class="item-menu meio-botao" type="button" value="Enviar Pacote" onclick="enviarPacote()"/><br/>
+			<input class="item-menu botao" type="button" value="Examinar Log" onclick="redirecionar('v1/log')"/><br/>
+			<input class="item-menu meio-botao" type="button" value="Examinar Registradores" onclick="redirecionar('v1/registradores')"/>
+			<input class="item-menu meio-botao" type="button" value="Examinar GPIO" onclick="redirecionar('v1/gpio')"/><br/>
+			<input class="item-menu botao" type="button" value="Limpar Registradores" onclick="limparRegistradores()"/><br/>
+		</form>
+		<textarea id="saida-ajax" rows="6" cols="55">Saída Resposta Ajax.</textarea> 
+	</body>
+	<script>
+		var redirecionar = function(url){
+			window.location = url;
+		};
+		var limparRegistradores = function(){
+			var requisicao = new XMLHttpRequest();
+			requisicao.open( 'DELETE', 'v1/registradores', false );
+			requisicao.send();
+		};
+		var enviarPacote = function(){
+			var ajax = document.getElementById('ajax');
+			if(ajax.checked == true){
+				var corpo = { grappa : {
+								endereco : document.getElementById('endereco').value,
+								tipo : document.getElementById('tipo').value,
+								conexao : document.getElementById('conexao').value,
+								corpo : document.getElementById('corpo').value
+							}
+						};
+				var requisicao = new XMLHttpRequest();
+				requisicao.open( 'POST', 'v1/resultado-pacote', false );
+				requisicao.setRequestHeader('Content-type', 'application/json;charset=UTF-8');
+				requisicao.send(JSON.stringify(corpo));
+				document.getElementById('saida-ajax').innerHTML = requisicao.responseText;
+			}else{
+				document.getElementById('console').submit();
+			}
+		};
+	</script>
+</html>

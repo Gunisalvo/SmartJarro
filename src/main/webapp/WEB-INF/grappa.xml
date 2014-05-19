@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuracao-grappa>
+	<pacote-servico>org.gunisalvo.grappaWeb.servico</pacote-servico>
+	<padrao>
+		OUTPUT_DIGITAL
+	</padrao>
+	<pino-monitor>
+		0
+	</pino-monitor>
+	<pino-inicial>
+		0
+	</pino-inicial>
+	<pino-final>
+		20
+	</pino-final>
+	<pinos>
+		<pino>
+			<posicao>7</posicao>
+			<tipo>INPUT_DIGITAL</tipo>
+		</pino>
+	</pinos>
+</configuracao-grappa>
