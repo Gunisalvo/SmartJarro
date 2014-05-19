@@ -1,4 +1,4 @@
-package org.gunisalvo.grappaWeb.http;
+package org.gunisalvo.smartJarro.http;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;

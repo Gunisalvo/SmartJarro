@@ -1,4 +1,4 @@
-package org.gunisalvo.grappaWeb.servico.registrador;
+package org.gunisalvo.smartJarro.servico.registrador;
 
 import org.gunisalvo.grappa.Barramento;
 import org.gunisalvo.grappa.Grappa;

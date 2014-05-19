@@ -1,4 +1,4 @@
-package org.gunisalvo.grappaWeb.http.bean;
+package org.gunisalvo.smartJarro.http.bean;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -12,7 +12,7 @@ import org.gunisalvo.grappa.modelo.PacoteGrappa.Conexao;
 import org.gunisalvo.grappa.modelo.PacoteGrappa.TipoAcao;
 import org.gunisalvo.grappa.modelo.RegistradoresGrappa;
 import org.gunisalvo.grappa.registradores.BarramentoRegistradores;
-import org.gunisalvo.grappaWeb.http.InterfaceHttp;
+import org.gunisalvo.smartJarro.http.InterfaceHttp;
 
 public class InterfaceHttpJaxRS implements InterfaceHttp{
 	

@@ -1,4 +1,4 @@
-package org.gunisalvo.grappaWeb.servico.gpio;
+package org.gunisalvo.smartJarro.servico.gpio;
 
 import org.gunisalvo.grappa.Barramento;
 import org.gunisalvo.grappa.Grappa;
