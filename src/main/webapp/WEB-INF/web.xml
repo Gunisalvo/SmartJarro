@@ -3,15 +3,15 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	id="WebApp_ID" version="3.0">
-	<display-name>GrappaWEB</display-name>
+	<display-name>SmartJarro</display-name>
 
 	<!-- Resteasy -->
     <servlet>
-        <servlet-name>GrappaWEB</servlet-name>
+        <servlet-name>SmartJarro</servlet-name>
         <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
-            <param-value>org.gunisalvo.grappaWeb.http.RaizHttp</param-value>
+            <param-value>org.gunisalvo.smartJarro.http.RaizHttp</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -20,15 +20,7 @@
         <param-value>/v1</param-value>
     </context-param>
     <servlet-mapping>
-        <servlet-name>GrappaWEB</servlet-name>
+        <servlet-name>SmartJarro</servlet-name>
         <url-pattern>/v1/*</url-pattern>
     </servlet-mapping>
-	<!-- JAX-WS -->
-	<listener>
-		<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
-	</listener>
-	<servlet>
-		<servlet-name>GrappaSOAP</servlet-name>
-		<servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
-	</servlet>
 </web-app>

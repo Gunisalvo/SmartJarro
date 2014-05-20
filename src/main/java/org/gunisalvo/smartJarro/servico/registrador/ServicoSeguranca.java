@@ -1,6 +1,7 @@
-package grappaWeb;
+package org.gunisalvo.smartJarro.servico.registrador;
 
 import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -9,9 +10,23 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class TesteEmail {
+import org.gunisalvo.grappa.registradores.RegistradorListener;
+import org.gunisalvo.grappa.registradores.ServicoRegistrador;
+import org.gunisalvo.smartJarro.modelo.Jarro;
 
-	public static void main(String[] args) {
+@RegistradorListener(endereco=1)
+public class ServicoSeguranca implements ServicoRegistrador{
+	
+	@Override
+	public void processarServico(Object valorEndereco) {
+		Jarro jarro = (Jarro) valorEndereco;
+		if(jarro.violado()){
+			enviarAlerta(jarro.getUsername(),jarro.getEmail(),jarro.getSenha());
+		}
+		
+	}
+	
+	private void enviarAlerta(final String username, String email, final String senha){
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
@@ -23,19 +38,17 @@ public class TesteEmail {
 		Session session = Session.getDefaultInstance(props,
 			new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("gunisalvo","refaT0242");
+					return new PasswordAuthentication(username,senha);
 				}
 			});
  
 		try {
- 
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("gunisalvo@gmail.com"));
+			message.setFrom(new InternetAddress(email));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("gunisalvo@gmail.com"));
-			message.setSubject("Testing Subject");
-			message.setText("Dear Mail Crawler," +
-					"\n\n No spam to my email, please!");
+					InternetAddress.parse(email));
+			message.setSubject("[SmartJarro] Segurança Comprometida!");
+			message.setText("Seu jarro está sendo roubado!");
  
 			Transport.send(message);
  
@@ -45,5 +58,5 @@ public class TesteEmail {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 }

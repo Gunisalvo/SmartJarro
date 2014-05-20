@@ -15,6 +15,7 @@ import org.gunisalvo.grappa.modelo.PacoteGrappa;
 import org.gunisalvo.grappa.modelo.PacoteGrappa.Conexao;
 import org.gunisalvo.grappa.modelo.PacoteGrappa.TipoAcao;
 import org.gunisalvo.grappa.modelo.RegistradoresGrappa;
+import org.gunisalvo.smartJarro.modelo.Jarro;
 
 @Path("/")
 public interface InterfaceHttp {
@@ -51,5 +52,16 @@ public interface InterfaceHttp {
 													@FormParam("conexao") Conexao conexao, 
 													@FormParam("tipo") TipoAcao tipo,
 													@FormParam("corpo") String corpo);
+	
+	@GET
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	@Path("jarro")
+	public Jarro lerEstadoJarro();
+	
+	@POST
+	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+	@Path("jarro")
+	public Jarro postarJarro(Jarro novo);
 
 }

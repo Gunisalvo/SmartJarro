@@ -70,7 +70,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.4</version>
 				<configuration>
-					<warName>grappa</warName>
+					<warName>smartJarro</warName>
 					<resourceEncoding>UTF-8</resourceEncoding>
 				</configuration>
 			</plugin>

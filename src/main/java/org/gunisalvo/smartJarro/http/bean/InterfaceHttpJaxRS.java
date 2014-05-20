@@ -9,10 +9,14 @@ import org.gunisalvo.grappa.gpio.BarramentoGpio;
 import org.gunisalvo.grappa.modelo.MapaEletrico;
 import org.gunisalvo.grappa.modelo.PacoteGrappa;
 import org.gunisalvo.grappa.modelo.PacoteGrappa.Conexao;
+import org.gunisalvo.grappa.modelo.PacoteGrappa.Resultado;
 import org.gunisalvo.grappa.modelo.PacoteGrappa.TipoAcao;
+import org.gunisalvo.grappa.modelo.PinoDigitalGrappa.ValorSinalDigital;
 import org.gunisalvo.grappa.modelo.RegistradoresGrappa;
 import org.gunisalvo.grappa.registradores.BarramentoRegistradores;
 import org.gunisalvo.smartJarro.http.InterfaceHttp;
+import org.gunisalvo.smartJarro.modelo.Jarro;
+import org.gunisalvo.smartJarro.modelo.Jarro.Estado;
 
 public class InterfaceHttpJaxRS implements InterfaceHttp{
 	
@@ -45,5 +49,32 @@ public class InterfaceHttpJaxRS implements InterfaceHttp{
 	@Override
 	public MapaEletrico lerEstadoGpio() {
 		return BarramentoGpio.getBarramento().getEstado();
+	}
+
+	@Override
+	public Jarro lerEstadoJarro() {
+		PacoteGrappa resultado = postarPacote(new PacoteGrappa(1, Conexao.REGISTRADOR, TipoAcao.LEITURA, null));
+		if(Resultado.SUCESSO.equals(resultado.getResultado())){
+			return (Jarro) resultado.getCorpoJava();
+		}else{
+			return new Jarro();
+		}
+	}
+
+	@Override
+	public Jarro postarJarro(Jarro jarro) {
+		PacoteGrappa resultado = postarPacote(new PacoteGrappa(1, Conexao.GPIO, TipoAcao.LEITURA, null));
+		switch((ValorSinalDigital)resultado.getCorpoJava()){
+		case ALTO:
+			jarro.setEstado(Estado.ABERTO);
+			break;
+		case BAIXO:
+			jarro.setEstado(Estado.FECHADO);
+			break;
+		default:
+			break;
+		}
+		postarPacote(new PacoteGrappa(1, Conexao.REGISTRADOR, TipoAcao.ESCRITA, jarro));
+		return jarro;
 	}
 }
