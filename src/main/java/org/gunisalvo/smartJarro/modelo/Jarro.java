@@ -3,6 +3,7 @@ package org.gunisalvo.smartJarro.modelo;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name="jarro")
 public class Jarro {
@@ -45,6 +46,11 @@ public class Jarro {
 	public String getSenha() {
 		return String.valueOf(senha.hashCode());
 	}
+	
+	@XmlTransient
+	public String getSenhaAberta() {
+		return senha;
+	}
 
 	public void setSenha(String senha) {
 		this.senha = senha;
@@ -66,7 +72,7 @@ public class Jarro {
 		this.estado = estado;
 	}
 	
-	public boolean violado(){
+	public boolean isViolado(){
 		return Estado.ABERTO.equals(estado) && this.protegido;
 	}
 

@@ -20,8 +20,8 @@ public class ServicoSeguranca implements ServicoRegistrador{
 	@Override
 	public void processarServico(Object valorEndereco) {
 		Jarro jarro = (Jarro) valorEndereco;
-		if(jarro.violado()){
-			enviarAlerta(jarro.getUsername(),jarro.getEmail(),jarro.getSenha());
+		if(jarro.isViolado()){
+			enviarAlerta(jarro.getUsername(),jarro.getEmail(),jarro.getSenhaAberta());
 		}
 		
 	}

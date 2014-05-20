@@ -64,6 +64,7 @@ public class InterfaceHttpJaxRS implements InterfaceHttp{
 	@Override
 	public Jarro postarJarro(Jarro jarro) {
 		PacoteGrappa resultado = postarPacote(new PacoteGrappa(1, Conexao.GPIO, TipoAcao.LEITURA, null));
+		jarro.setProtegido(true);
 		switch((ValorSinalDigital)resultado.getCorpoJava()){
 		case ALTO:
 			jarro.setEstado(Estado.ABERTO);
