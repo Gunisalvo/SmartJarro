@@ -11,12 +11,12 @@
 		0
 	</pino-inicial>
 	<pino-final>
-		20
+		2
 	</pino-final>
 	<pinos>
 		<pino>
 			<posicao>1</posicao>
-			<tipo>OUTPUT_DIGITAL</tipo>
+			<tipo>INPUT_DIGITAL</tipo>
 		</pino>
 	</pinos>
 </configuracao-grappa>

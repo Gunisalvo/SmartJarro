@@ -11,7 +11,7 @@ import org.gunisalvo.grappa.modelo.PacoteGrappa;
 import org.gunisalvo.grappa.modelo.PacoteGrappa.Conexao;
 import org.gunisalvo.grappa.modelo.PacoteGrappa.Resultado;
 import org.gunisalvo.grappa.modelo.PacoteGrappa.TipoAcao;
-import org.gunisalvo.grappa.modelo.PinoDigitalGrappa.ValorSinalDigital;
+import org.gunisalvo.grappa.modelo.ValorSinalDigital;
 import org.gunisalvo.grappa.modelo.RegistradoresGrappa;
 import org.gunisalvo.grappa.registradores.BarramentoRegistradores;
 import org.gunisalvo.smartJarro.http.InterfaceHttp;
@@ -27,7 +27,7 @@ public class InterfaceHttpJaxRS implements InterfaceHttp{
 	
 	@Override
 	public RegistradoresGrappa lerMapaRegistradores() {
-		return BarramentoRegistradores.getBarramento().getRegistradores();
+		return BarramentoRegistradores.getBarramento().getEstado();
 	}
 	
 	@Override
@@ -55,7 +55,7 @@ public class InterfaceHttpJaxRS implements InterfaceHttp{
 	public Jarro lerEstadoJarro() {
 		PacoteGrappa resultado = postarPacote(new PacoteGrappa(1, Conexao.REGISTRADOR, TipoAcao.LEITURA, null));
 		if(Resultado.SUCESSO.equals(resultado.getResultado())){
-			return (Jarro) resultado.getCorpoJava();
+			return (Jarro) resultado.getCorpo();
 		}else{
 			return new Jarro();
 		}
@@ -65,7 +65,7 @@ public class InterfaceHttpJaxRS implements InterfaceHttp{
 	public Jarro postarJarro(Jarro jarro) {
 		PacoteGrappa resultado = postarPacote(new PacoteGrappa(1, Conexao.GPIO, TipoAcao.LEITURA, null));
 		jarro.setProtegido(true);
-		switch((ValorSinalDigital)resultado.getCorpoJava()){
+		switch((ValorSinalDigital)resultado.getCorpo()){
 		case ALTO:
 			jarro.setEstado(Estado.ABERTO);
 			break;
