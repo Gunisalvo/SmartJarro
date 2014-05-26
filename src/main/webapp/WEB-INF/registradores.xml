@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuracao-registradores>
 	<celulas>
-		<celula>
+		<celula-texto>
 			<posicao>0</posicao>
 			<valor>Smart Jarro</valor>
-		</celula>
+		</celula-texto>
 	</celulas>
 </configuracao-registradores>
