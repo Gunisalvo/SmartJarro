@@ -44,7 +44,7 @@ public class Jarro {
 	}
 
 	public String getSenha() {
-		return String.valueOf(senha.hashCode());
+		return senha == null ? null : String.valueOf(senha.hashCode());
 	}
 	
 	@XmlTransient

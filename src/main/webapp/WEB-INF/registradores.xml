@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuracao-registradores>
 	<celulas>
-		<celula-texto>
+		<celula>
 			<posicao>0</posicao>
 			<valor>Smart Jarro</valor>
-		</celula-texto>
+		</celula>
+		<celula-tipada>
+			<posicao>1</posicao>
+			<org.gunisalvo.smartJarro.modelo.Jarro>
+				<protegido>false</protegido>
+			</org.gunisalvo.smartJarro.modelo.Jarro>
+		</celula-tipada>
 	</celulas>
 </configuracao-registradores>
