@@ -55,7 +55,7 @@ public class InterfaceHttpJaxRS implements InterfaceHttp{
 	public Jarro lerEstadoJarro() {
 		PacoteGrappa resultado = postarPacote(new PacoteGrappa(1, Conexao.REGISTRADOR, TipoAcao.LEITURA, null));
 		if(Resultado.SUCESSO.equals(resultado.getResultado())){
-			return (Jarro) resultado.getCorpo();
+			return (Jarro) resultado.getCorpoValor();
 		}else{
 			return new Jarro();
 		}
@@ -65,7 +65,7 @@ public class InterfaceHttpJaxRS implements InterfaceHttp{
 	public Jarro postarJarro(Jarro jarro) {
 		PacoteGrappa resultado = postarPacote(new PacoteGrappa(1, Conexao.GPIO, TipoAcao.LEITURA, null));
 		jarro.setProtegido(true);
-		switch((ValorSinalDigital)resultado.getCorpo()){
+		switch((ValorSinalDigital)resultado.getCorpoValor()){
 		case ALTO:
 			jarro.setEstado(Estado.ABERTO);
 			break;

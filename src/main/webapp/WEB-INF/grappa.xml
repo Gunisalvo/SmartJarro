@@ -16,7 +16,7 @@
 	<pinos>
 		<pino>
 			<posicao>1</posicao>
-			<tipo>INPUT_DIGITAL</tipo>
+			<tipo>OUTPUT_DIGITAL</tipo>
 		</pino>
 	</pinos>
 </configuracao-grappa>

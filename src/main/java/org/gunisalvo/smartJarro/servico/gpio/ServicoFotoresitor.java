@@ -19,8 +19,8 @@ public class ServicoFotoresitor implements ServicoBarramentoGpio{
 	public void processarServico(Integer estadoPino){
 		Grappa.getAplicacao().log("fotoresistor : " + estadoPino, NivelLog.INFO);
 		PacoteGrappa resultado = Barramento.processarPacote(new PacoteGrappa(1, Conexao.REGISTRADOR, TipoAcao.LEITURA, null));
-		if(Resultado.SUCESSO.equals(resultado.getResultado()) && resultado.getCorpo() != null){
-			Jarro jarro = (Jarro) resultado.getCorpo();
+		if(Resultado.SUCESSO.equals(resultado.getResultado()) && resultado.getValor() != null){
+			Jarro jarro = (Jarro) resultado.getCorpoValor();
 			if(estadoPino == 1){
 				jarro.setEstado(Estado.ABERTO);
 				Grappa.getAplicacao().log("jarro Aberto.", NivelLog.INFO);
