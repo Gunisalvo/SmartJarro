@@ -3,7 +3,6 @@ package org.gunisalvo.smartJarro.http.bean;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.gunisalvo.grappa.Barramento;
 import org.gunisalvo.grappa.Grappa;
 import org.gunisalvo.grappa.gpio.BarramentoGpio;
 import org.gunisalvo.grappa.modelo.MapaEletrico;
@@ -11,8 +10,8 @@ import org.gunisalvo.grappa.modelo.PacoteGrappa;
 import org.gunisalvo.grappa.modelo.PacoteGrappa.Conexao;
 import org.gunisalvo.grappa.modelo.PacoteGrappa.Resultado;
 import org.gunisalvo.grappa.modelo.PacoteGrappa.TipoAcao;
-import org.gunisalvo.grappa.modelo.ValorSinalDigital;
 import org.gunisalvo.grappa.modelo.RegistradoresGrappa;
+import org.gunisalvo.grappa.modelo.ValorSinalDigital;
 import org.gunisalvo.grappa.registradores.BarramentoRegistradores;
 import org.gunisalvo.smartJarro.http.InterfaceHttp;
 import org.gunisalvo.smartJarro.modelo.Jarro;
@@ -32,7 +31,7 @@ public class InterfaceHttpJaxRS implements InterfaceHttp{
 	
 	@Override
 	public PacoteGrappa postarPacote(PacoteGrappa requisicao) {
-		return Barramento.processarPacote(requisicao);
+		return Grappa.processarPacote(requisicao);
 	}
 
 	@Override

@@ -2,7 +2,7 @@
 <configuracao-grappa>
 	<pacote-servico>org.gunisalvo.smartJarro.servico</pacote-servico>
 	<padrao>
-		OUTPUT_DIGITAL
+		SAIDA
 	</padrao>
 	<pino-monitor>
 		0
@@ -16,7 +16,7 @@
 	<pinos>
 		<pino>
 			<posicao>1</posicao>
-			<tipo>OUTPUT_DIGITAL</tipo>
+			<tipo>ENTRADA</tipo>
 		</pino>
 	</pinos>
 </configuracao-grappa>
