@@ -1,4 +1,4 @@
-package org.gunisalvo.smartJarro.modelo;
+package org.entrementes.smartJarro.modelo;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;

@@ -1,4 +1,4 @@
-package org.gunisalvo.smartJarro.http;
+package org.entrementes.smartJarro.http;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -7,7 +7,7 @@ import java.util.Set;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
-import org.gunisalvo.smartJarro.http.bean.InterfaceHttpJaxRS;
+import org.entrementes.smartJarro.http.bean.InterfaceHttpJaxRS;
 
 @ApplicationPath(value="/v1")
 public class RaizHttp extends Application{

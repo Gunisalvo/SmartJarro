@@ -1,4 +1,4 @@
-package org.gunisalvo.smartJarro.servico.registrador;
+package org.entrementes.smartJarro.servico.registrador;
 
 import java.util.Properties;
 
@@ -10,11 +10,11 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.gunisalvo.grappa.registradores.RegistradorListener;
-import org.gunisalvo.grappa.registradores.ServicoRegistrador;
-import org.gunisalvo.smartJarro.modelo.Jarro;
+import org.entrementes.grappa.registradores.ObservadorRegistrador;
+import org.entrementes.grappa.registradores.ServicoRegistrador;
+import org.entrementes.smartJarro.modelo.Jarro;
 
-@RegistradorListener(endereco=1)
+@ObservadorRegistrador(endereco=1)
 public class ServicoSeguranca implements ServicoRegistrador{
 	
 	@Override
@@ -47,8 +47,8 @@ public class ServicoSeguranca implements ServicoRegistrador{
 			message.setFrom(new InternetAddress(email));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(email));
-			message.setSubject("[SmartJarro] Segurança Comprometida!");
-			message.setText("Seu jarro está sendo roubado!");
+			message.setSubject("[SmartJarro] Seguran��a Comprometida!");
+			message.setText("Seu jarro est�� sendo roubado!");
  
 			Transport.send(message);
  

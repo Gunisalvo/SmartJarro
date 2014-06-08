@@ -1,4 +1,4 @@
-package org.gunisalvo.smartJarro.http;
+package org.entrementes.smartJarro.http;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -10,12 +10,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.gunisalvo.grappa.modelo.MapaEletrico;
-import org.gunisalvo.grappa.modelo.PacoteGrappa;
-import org.gunisalvo.grappa.modelo.PacoteGrappa.Conexao;
-import org.gunisalvo.grappa.modelo.PacoteGrappa.TipoAcao;
-import org.gunisalvo.grappa.modelo.RegistradoresGrappa;
-import org.gunisalvo.smartJarro.modelo.Jarro;
+import org.entrementes.grappa.modelo.MapaEletrico;
+import org.entrementes.grappa.modelo.InstrucaoGrappa;
+import org.entrementes.grappa.modelo.InstrucaoGrappa.Conexao;
+import org.entrementes.grappa.modelo.InstrucaoGrappa.TipoAcao;
+import org.entrementes.grappa.modelo.RegistradoresGrappa;
+import org.entrementes.smartJarro.modelo.Jarro;
 
 @Path("/")
 public interface InterfaceHttp {
@@ -43,12 +43,12 @@ public interface InterfaceHttp {
 	@Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	@Path("resultado-pacote")
-	public PacoteGrappa postarPacote(PacoteGrappa comando);
+	public InstrucaoGrappa postarPacote(InstrucaoGrappa comando);
 	
 	@POST
 	@Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
 	@Path("resultado-pacote.xml")
-	public PacoteGrappa postarPacotePorFormulario(	@FormParam("endereco") Integer endereco,
+	public InstrucaoGrappa postarPacotePorFormulario(	@FormParam("endereco") Integer endereco,
 													@FormParam("conexao") Conexao conexao, 
 													@FormParam("tipo") TipoAcao tipo,
 													@FormParam("corpo") String corpo);
