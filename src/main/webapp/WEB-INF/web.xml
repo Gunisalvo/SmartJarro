@@ -11,7 +11,7 @@
         <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
-            <param-value>org.gunisalvo.smartJarro.http.RaizHttp</param-value>
+            <param-value>org.entrementes.smartJarro.http.RaizHttp</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

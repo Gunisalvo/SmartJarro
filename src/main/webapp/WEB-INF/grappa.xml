@@ -15,7 +15,7 @@
 	</pino-final>
 	<pinos>
 		<pino>
-			<posicao>1</posicao>
+			<endereco>1</endereco>
 			<tipo>ENTRADA</tipo>
 		</pino>
 	</pinos>

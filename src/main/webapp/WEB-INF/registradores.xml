@@ -2,14 +2,14 @@
 <configuracao-registradores>
 	<celulas>
 		<celula>
-			<posicao>0</posicao>
+			<endereco>0</endereco>
 			<valor>Smart Jarro</valor>
 		</celula>
 		<celula-tipada>
-			<posicao>1</posicao>
-			<org.gunisalvo.smartJarro.modelo.Jarro>
+			<endereco>1</endereco>
+			<valor tipo="org.entrementes.smartJarro.modelo.Jarro">
 				<protegido>false</protegido>
-			</org.gunisalvo.smartJarro.modelo.Jarro>
+			</valor>
 		</celula-tipada>
 	</celulas>
 </configuracao-registradores>
