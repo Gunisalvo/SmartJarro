@@ -26,28 +26,29 @@
 			<input id="ajax"  type="checkbox" name="ajax" value="ajax">Ajax<br/>
 			<input class="item-menu meio-botao" type="reset" value="Limpar"/>
 			<input class="item-menu meio-botao" type="button" value="Registrar Jarro" onclick="registrarJarro()"/><br/>
-			<input class="item-menu botao" type="button" value="Examinar Log" onclick="redirecionar('v1/log')"/><br/>
-			<input class="item-menu meio-botao" type="button" value="Examinar Registradores" onclick="redirecionar('v1/registradores')"/>
-			<input class="item-menu meio-botao" type="button" value="Examinar GPIO" onclick="redirecionar('v1/gpio')"/><br/>
+			<input class="item-menu meio-botao" type="button" value="Examinar Log" onclick="redirecionar('v1/log')"/>
+			<input class="item-menu meio-botao" type="button" value="Examinar Dispositivo" onclick="redirecionar('v1/jarro')"/>
 		</form>
 		<textarea id="saida-ajax" rows="6" cols="55">Saída Resposta Ajax.</textarea> 
+		<form id="proteger-desproteger" action="v1/jarro/protegerDesproteger.txt" method="post">
+			<label class="item-menu label">Senha:</label>
+			<input id="senha" class="item-menu campo" type="password" name="senha"/>
+			<br/>
+			<input class="item-menu meio-botao" type="reset" value="Limpar"/>
+			<input class="item-menu meio-botao" type="submit" value="Proteger/Desproteger"/><br/>
+		</form>
 	</body>
 	<script>
 		var redirecionar = function(url){
 			window.location = url;
 		};
-		var limparRegistradores = function(){
-			var requisicao = new XMLHttpRequest();
-			requisicao.open( 'DELETE', 'v1/registradores', false );
-			requisicao.send();
-		};
 		var registrarJarro = function(){
 			var ajax = document.getElementById('ajax');
 			if(ajax.checked == true){
-				var corpo = { jarro : {
-								username : document.getElementById('username').value,
-								email : document.getElementById('email').value,
-								senha : document.getElementById('senha').value
+				var corpo = { 'smart-jarro' : {
+								'username' : document.getElementById('username').value,
+								'email' : document.getElementById('email').value,
+								'senha' : document.getElementById('senha').value
 							}
 						};
 				var requisicao = new XMLHttpRequest();

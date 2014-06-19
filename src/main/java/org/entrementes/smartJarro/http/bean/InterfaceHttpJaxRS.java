@@ -2,79 +2,55 @@ package org.entrementes.smartJarro.http.bean;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
-import org.entrementes.grappa.ContextoGrappa;
-import org.entrementes.grappa.gpio.BarramentoGpio;
-import org.entrementes.grappa.modelo.MapaEletrico;
-import org.entrementes.grappa.modelo.InstrucaoGrappa;
-import org.entrementes.grappa.modelo.InstrucaoGrappa.Conexao;
-import org.entrementes.grappa.modelo.InstrucaoGrappa.Resultado;
-import org.entrementes.grappa.modelo.InstrucaoGrappa.TipoAcao;
-import org.entrementes.grappa.modelo.RegistradoresGrappa;
-import org.entrementes.grappa.modelo.ValorSinalDigital;
-import org.entrementes.grappa.registradores.BarramentoRegistradores;
+import org.entrementes.smartJarro.SmartJarro;
 import org.entrementes.smartJarro.http.InterfaceHttp;
+import org.entrementes.smartJarro.modelo.CredencialSeguranca;
 import org.entrementes.smartJarro.modelo.Jarro;
-import org.entrementes.smartJarro.modelo.Jarro.Estado;
 
 public class InterfaceHttpJaxRS implements InterfaceHttp{
 	
 	@Override
 	public Response lerLog() {
-		return Response.ok(ContextoGrappa.getAplicacao().getLog(), MediaType.TEXT_PLAIN).build();
-	}
-	
-	@Override
-	public RegistradoresGrappa lerMapaRegistradores() {
-		return BarramentoRegistradores.getBarramento().getEstado();
-	}
-	
-	@Override
-	public InstrucaoGrappa postarPacote(InstrucaoGrappa requisicao) {
-		return ContextoGrappa.processarInstrucao(requisicao);
-	}
-
-	@Override
-	public InstrucaoGrappa postarPacotePorFormulario( Integer endereco, Conexao conexao, TipoAcao tipo, String corpo) {
-		return postarPacote(new InstrucaoGrappa(endereco, conexao, tipo, corpo));
-	}
-
-	@Override
-	public Response limparMapaRegistradores() {
-		BarramentoRegistradores.getBarramento().limparRegistradores();
-		return Response.ok().build();
-	}
-
-	@Override
-	public MapaEletrico lerEstadoGpio() {
-		return BarramentoGpio.getBarramento().getEstado();
+		return Response.ok(SmartJarro.getConteudoLog(), MediaType.TEXT_PLAIN).build();
 	}
 
 	@Override
 	public Jarro lerEstadoJarro() {
-		InstrucaoGrappa resultado = postarPacote(new InstrucaoGrappa(1, Conexao.REGISTRADOR, TipoAcao.LEITURA, null));
-		if(Resultado.SUCESSO.equals(resultado.getResultado())){
-			return (Jarro) resultado.getCorpoValor();
-		}else{
-			return new Jarro();
-		}
+		return SmartJarro.carregarDispositivo();
 	}
 
 	@Override
 	public Jarro postarJarro(Jarro jarro) {
-		InstrucaoGrappa resultado = postarPacote(new InstrucaoGrappa(1, Conexao.GPIO, TipoAcao.LEITURA, null));
-		jarro.setProtegido(true);
-		switch((ValorSinalDigital)resultado.getCorpoValor()){
-		case ALTO:
-			jarro.setEstado(Estado.ABERTO);
-			break;
-		case BAIXO:
-			jarro.setEstado(Estado.FECHADO);
-			break;
-		default:
-			break;
+		Jarro atual = SmartJarro.carregarDispositivo();
+		atual.setEmail(jarro.getEmail());
+		atual.setSenha(jarro.getSenhaAberta());
+		atual.setUsername(jarro.getUsername());
+		atual.atualizarEstado();
+		atual.setProtegido(jarro.getProtegido() == null ? true : jarro.getProtegido());
+		SmartJarro.info("novo estado jarro: protegido -> " +atual.getProtegido());
+		return atual;
+	}
+
+	@Override
+	public Response protegerDesproteger(CredencialSeguranca credencial) {
+		Jarro atual = SmartJarro.carregarDispositivo();
+		if(atual.validarCredencial(credencial)){
+			atual.setProtegido(!atual.getProtegido());
+			return Response.ok().type(MediaType.TEXT_PLAIN).entity("ok").build();
+		}else{
+			return Response.status(Status.UNAUTHORIZED).type(MediaType.TEXT_PLAIN).entity("nao autorizado").build();
 		}
-		postarPacote(new InstrucaoGrappa(1, Conexao.REGISTRADOR, TipoAcao.ESCRITA, jarro));
-		return jarro;
+	}
+	
+	@Override
+	public Response protegerDesprotegerFormulario(String senha) {
+		return protegerDesproteger(new CredencialSeguranca(senha));
+	}
+
+	@Override
+	public Jarro postarJarroFormulario(String username, String email, String senha) {
+		return postarJarro(new Jarro(email, senha, null, null, username));
 	}
 }

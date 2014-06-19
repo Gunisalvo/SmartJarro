@@ -5,21 +5,26 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
-import org.entrementes.grappa.ContextoGrappa;
+import org.entrementes.grappa.contexto.ContextoGrappa;
+import org.entrementes.grappa.contexto.ContextoServlet;
+import org.entrementes.smartJarro.SmartJarro;
+import org.entrementes.smartJarro.modelo.Jarro;
 
 @WebListener
 public class ContextoWeb implements ServletContextListener{
 
 	@Override
 	public void contextDestroyed(ServletContextEvent evento) {
-		ContextoGrappa.getAplicacao().registrarDesligamento();
-		System.gc();
+		ServletContext contexto = evento.getServletContext();
+		ContextoGrappa grappa = (ContextoGrappa) contexto.getAttribute("grappa");
+		grappa.getImplementacao().desativar();
 	}
 
 	@Override
 	public void contextInitialized(ServletContextEvent evento) {
 		ServletContext contexto = evento.getServletContext();
-		ContextoGrappa.construir(contexto.getRealPath(""));
+		ContextoGrappa grappa = new ContextoServlet(contexto);
+		SmartJarro.construir((Jarro)grappa.getDispositivos().get("smart-jarro"));
 		
 	}
 

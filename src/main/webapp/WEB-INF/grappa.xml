@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuracao-grappa>
-	<pacote-servico>org.gunisalvo.smartJarro.servico</pacote-servico>
-	<padrao>
+	<pacote-servico>org.entrementes.smartJarro.modelo</pacote-servico>
+	<padrao-pino>
 		SAIDA
-	</padrao>
+	</padrao-pino>
 	<pino-monitor>
 		0
 	</pino-monitor>
@@ -11,7 +11,7 @@
 		0
 	</pino-inicial>
 	<pino-final>
-		2
+		1
 	</pino-final>
 	<pinos>
 		<pino>
