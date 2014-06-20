@@ -46,6 +46,8 @@ public class Jarro {
 
 	private String username;
 
+	private Boolean mensagemEnviada;
+
 	public Jarro() {
 	}
 	
@@ -54,6 +56,7 @@ public class Jarro {
 		this.senha = senha;
 		this.protegido = protegido;
 		this.username = username;
+		this.mensagemEnviada = false;
 	}	
 	
 	public String getEmail() {
@@ -91,7 +94,8 @@ public class Jarro {
 
 	public void setEstado(Estado estado) {
 		this.estado = estado;
-		if(isViolado() && credenciaisCadastradas()){
+		if(isViolado() && credenciaisCadastradas() && !this.mensagemEnviada){
+			this.mensagemEnviada = true;
 			enviarAlerta(this.username, this.email, this.senha);
 		}
 	}
@@ -112,6 +116,14 @@ public class Jarro {
 		this.username = username;
 	}
 	
+	public Boolean getMensagemEnviada() {
+		return mensagemEnviada;
+	}
+
+	public void setMensagemEnviada(Boolean mensagemEnviada) {
+		this.mensagemEnviada = mensagemEnviada;
+	}
+
 	@ObservadorGpio(endereco=1)
 	public void processarEventoFotoresistor(Integer sinal){
 		SmartJarro.info("fotoresistor: " +sinal);

@@ -29,6 +29,7 @@ public class InterfaceHttpJaxRS implements InterfaceHttp{
 		atual.setUsername(jarro.getUsername());
 		atual.atualizarEstado();
 		atual.setProtegido(jarro.getProtegido() == null ? true : jarro.getProtegido());
+		atual.setMensagemEnviada(jarro.getMensagemEnviada() == null ? false : jarro.getMensagemEnviada());
 		SmartJarro.info("novo estado jarro: protegido -> " +atual.getProtegido());
 		return atual;
 	}
@@ -38,6 +39,9 @@ public class InterfaceHttpJaxRS implements InterfaceHttp{
 		Jarro atual = SmartJarro.carregarDispositivo();
 		if(atual.validarCredencial(credencial)){
 			atual.setProtegido(!atual.getProtegido());
+			if(atual.getProtegido()){
+				atual.setMensagemEnviada(false);
+			}
 			return Response.ok().type(MediaType.TEXT_PLAIN).entity("ok").build();
 		}else{
 			return Response.status(Status.UNAUTHORIZED).type(MediaType.TEXT_PLAIN).entity("nao autorizado").build();
