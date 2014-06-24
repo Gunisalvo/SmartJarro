@@ -51,5 +51,10 @@ public interface InterfaceHttp {
 	@GET
 	@Path("abrirJarro")
 	public Response abrirJarro();
+	
+	@GET
+	@Path("culpado.jpg")
+	@Produces("image/jpg")
+	public Response burcarCulpado();
 
 }

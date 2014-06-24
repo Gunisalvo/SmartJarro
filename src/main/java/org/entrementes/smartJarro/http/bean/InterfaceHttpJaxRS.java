@@ -1,7 +1,10 @@
 package org.entrementes.smartJarro.http.bean;
 
+import java.io.File;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import org.entrementes.smartJarro.SmartJarro;
@@ -63,5 +66,15 @@ public class InterfaceHttpJaxRS implements InterfaceHttp{
 		Jarro atual = SmartJarro.carregarDispositivo();
 		atual.abrir();
 		return Response.ok().build();
+	}
+
+	@Override
+	public Response burcarCulpado() {
+		File file = new File("/home/pi/camera/culpado.jpg");
+		 
+		ResponseBuilder response = Response.ok((Object) file);
+		response.header("Content-Disposition",
+			"attachment; culpado.jpg");
+		return response.build();
 	}
 }
