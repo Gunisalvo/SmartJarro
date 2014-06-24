@@ -47,5 +47,9 @@ public interface InterfaceHttp {
 	@POST
 	@Path("jarro/protegerDesproteger.txt")
 	public Response protegerDesprotegerFormulario(@FormParam("senha") String senha);
+	
+	@GET
+	@Path("abrirJarro")
+	public Response abrirJarro();
 
 }

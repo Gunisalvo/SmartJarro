@@ -1,5 +1,6 @@
 package org.entrementes.smartJarro.modelo;
 
+import java.io.IOException;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -8,22 +9,25 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.entrementes.grappa.gpio.Raspberry;
-import org.entrementes.grappa.marcacao.Dispositivo;
-import org.entrementes.grappa.marcacao.Hardware;
-import org.entrementes.grappa.marcacao.ObservadorGpio;
-import org.entrementes.grappa.modelo.InstrucaoGrappa;
-import org.entrementes.grappa.modelo.instrucao.InstrucaoLogica;
 import org.entrementes.smartJarro.SmartJarro;
 
+import br.com.caelum.grappa.annotation.Device;
+import br.com.caelum.grappa.annotation.Hardware;
+import br.com.caelum.grappa.annotation.PinListener;
+import br.com.caelum.grappa.model.GrappaInstruction;
+import br.com.caelum.grappa.model.builder.LogicInstruction;
+import br.com.caelum.grappa.pin.PhysicalDevice;
+
 @XmlRootElement(name="smart-jarro")
-@Dispositivo(nome="smart-jarro")
+@Device(nome="smart-jarro")
 public class Jarro {
 	
 	@XmlEnum
@@ -34,7 +38,7 @@ public class Jarro {
 	}
 	
 	@Hardware
-	private Raspberry pi;
+	private PhysicalDevice pi;
 	
 	private String email;
 	
@@ -105,7 +109,7 @@ public class Jarro {
 	}
 
 	public boolean isViolado(){
-		return Estado.ABERTO.equals(estado) && this.protegido;
+		return Estado.ABERTO.equals(estado) && (this.protegido == null ? false : this.protegido);
 	}
 
 	public String getUsername() {
@@ -124,7 +128,7 @@ public class Jarro {
 		this.mensagemEnviada = mensagemEnviada;
 	}
 
-	@ObservadorGpio(endereco=1)
+	@PinListener(addresses=1)
 	public void processarEventoFotoresistor(Integer sinal){
 		SmartJarro.info("fotoresistor: " +sinal);
 		if(sinal.intValue() == 1){
@@ -135,6 +139,13 @@ public class Jarro {
 	}
 	
 	private void enviarAlerta(final String username, String email, final String senha){
+		
+		try {
+			buscarCulpado();
+		} catch (Exception ex) {
+			SmartJarro.erro(ex.getMessage());
+		}
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.socketFactory.port", "465");
@@ -151,21 +162,40 @@ public class Jarro {
 			});
  
 		try {
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(email));
-			message.setRecipients(Message.RecipientType.TO,
+			Message mensagem = new MimeMessage(session);
+			mensagem.setFrom(new InternetAddress(email));
+			mensagem.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(email));
-			message.setSubject("[SmartJarro] Seguranca Comprometida!");
-			message.setText("Seu jarro esta sendo roubado!");
+			mensagem.setSubject("[SmartJarro] Seguranca Comprometida!");
+
+			MimeMultipart multipart = new MimeMultipart("mensagem-smart-jarro");
+			
+			MimeBodyPart imagem = new MimeBodyPart();
+			imagem.attachFile("/home/pi/camera/culpado.jpg");
+			
+			MimeBodyPart texto = new MimeBodyPart();
+			texto.setText("Seu jarro esta sendo roubado. Suspeito principal:");
+
+			multipart.addBodyPart(texto);
+			multipart.addBodyPart(imagem);
+			
+			mensagem.setContent(multipart);
+			Transport.send(mensagem);
  
-			Transport.send(message);
+			SmartJarro.info("Mensagem enviada.");
  
-			System.out.println("Done");
- 
-		} catch (MessagingException e) {
-			SmartJarro.erro(e.getMessage());
-			throw new RuntimeException(e);
+		} catch (MessagingException ex) {
+			SmartJarro.erro(ex.getMessage());
+			throw new RuntimeException(ex);
+		} catch (IOException ex) {
+			SmartJarro.erro(ex.getMessage());
+			throw new RuntimeException(ex);
 		}
+	}
+
+	private void buscarCulpado() throws Exception {
+		Process script = new ProcessBuilder("/home/pi/camera/./fotografar.sh").start();
+		script.waitFor();
 	}
 
 	public boolean validarCredencial(CredencialSeguranca credencial) {
@@ -173,7 +203,11 @@ public class Jarro {
 	}
 
 	public void atualizarEstado() {
-		InstrucaoGrappa resposta = this.pi.processarInstrucao(new InstrucaoLogica().endereco(1).ler());
-		processarEventoFotoresistor(resposta.getCorpo());
+		GrappaInstruction resposta = this.pi.processInstruction(new LogicInstruction().address(1).read());
+		processarEventoFotoresistor(resposta.getBody());
+	}
+
+	public void abrir() {
+		this.pi.processInstruction(new LogicInstruction().address(1).write(1));
 	}
 }

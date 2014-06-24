@@ -57,4 +57,11 @@ public class InterfaceHttpJaxRS implements InterfaceHttp{
 	public Jarro postarJarroFormulario(String username, String email, String senha) {
 		return postarJarro(new Jarro(email, senha, null, null, username));
 	}
+
+	@Override
+	public Response abrirJarro() {
+		Jarro atual = SmartJarro.carregarDispositivo();
+		atual.abrir();
+		return Response.ok().build();
+	}
 }

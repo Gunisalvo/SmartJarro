@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuracao-grappa>
-	<pacote-servico>org.entrementes.smartJarro.modelo</pacote-servico>
-	<padrao-pino>
-		SAIDA
-	</padrao-pino>
-	<pino-monitor>
+<pin-configuration>
+	<default-pin-type>OUTPUT</default-pin-type>
+	<initial-address>
 		0
-	</pino-monitor>
-	<pino-inicial>
-		0
-	</pino-inicial>
-	<pino-final>
+	</initial-address>
+	<final-address>
 		1
-	</pino-final>
-	<pinos>
-		<pino>
-			<endereco>1</endereco>
-			<tipo>ENTRADA</tipo>
-		</pino>
-	</pinos>
-</configuracao-grappa>
+	</final-address>
+	<pins>
+		<pin>
+			<address>1</address>
+			<type>INPUT</type>
+		</pin>
+	</pins>
+	<configuration-package>org.entrementes.smartJarro.modelo</configuration-package>
+</pin-configuration>

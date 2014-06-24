@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.entrementes</groupId>
 	<artifactId>smartJarro</artifactId>
-	<version>0.5.5-alpha</version>
+	<version>0.6.3-alpha</version>
 	<packaging>war</packaging>
 	<name>Smart Jarro</name>
 	<description>Proteja seus biscoitos.</description>
@@ -29,9 +29,9 @@
 			<version>2.3.5.Final</version>
 		</dependency>
 		<dependency>
-			<groupId>org.entrementes</groupId>
+			<groupId>br.com.caelum</groupId>
 			<artifactId>grappa</artifactId>
-			<version>0.5.5-alpha</version>
+			<version>0.6.3</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
