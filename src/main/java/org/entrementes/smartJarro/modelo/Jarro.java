@@ -168,7 +168,7 @@ public class Jarro {
 					InternetAddress.parse(email));
 			mensagem.setSubject("[SmartJarro] Seguranca Comprometida!");
 
-			MimeMultipart multipart = new MimeMultipart("mensagem-smart-jarro");
+			MimeMultipart multipart = new MimeMultipart();
 			
 			MimeBodyPart imagem = new MimeBodyPart();
 			imagem.attachFile("/home/pi/camera/culpado.jpg");
