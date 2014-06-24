@@ -162,6 +162,7 @@ public class Jarro {
 			});
  
 		try {
+			Thread.currentThread().setContextClassLoader(Jarro.class.getClassLoader());
 			Message mensagem = new MimeMessage(session);
 			mensagem.setFrom(new InternetAddress(email));
 			mensagem.setRecipients(Message.RecipientType.TO,
