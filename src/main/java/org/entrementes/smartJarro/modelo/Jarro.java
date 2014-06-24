@@ -186,11 +186,11 @@ public class Jarro {
  
 		} catch (MessagingException ex) {
 			SmartJarro.erro(ex.getMessage());
-			ex.printStackTrace();
+			SmartJarro.erro(ex.getNextException().getMessage());
 			throw new RuntimeException(ex);
 		} catch (IOException ex) {
 			SmartJarro.erro(ex.getMessage());
-			ex.printStackTrace();
+			SmartJarro.erro(ex.getCause().getMessage());
 			throw new RuntimeException(ex);
 		}
 	}
